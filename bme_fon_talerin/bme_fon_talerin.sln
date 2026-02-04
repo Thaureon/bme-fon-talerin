@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36811.4 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bme_fon_talerin", "bme_fon_talerin\bme_fon_talerin.csproj", "{B098C2F2-6355-4CE9-940B-C2E226D16203}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bme_fon_talerin.Data", "bme_fon_talerin.Data\bme_fon_talerin.Data.csproj", "{3E8C8C1D-1090-4829-AE7A-05D93A71F245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B098C2F2-6355-4CE9-940B-C2E226D16203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B098C2F2-6355-4CE9-940B-C2E226D16203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B098C2F2-6355-4CE9-940B-C2E226D16203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E8C8C1D-1090-4829-AE7A-05D93A71F245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E8C8C1D-1090-4829-AE7A-05D93A71F245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E8C8C1D-1090-4829-AE7A-05D93A71F245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E8C8C1D-1090-4829-AE7A-05D93A71F245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
