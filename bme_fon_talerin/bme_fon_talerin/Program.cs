@@ -1,10 +1,22 @@
 using bme_fon_talerin.Components;
+using bme_fon_talerin.Data;
+
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddEntityFrameworkSqlServer()
+    .AddDbContext<TalerinContext>((context, options) =>
+    {
+        var config = context.GetService<IConfiguration>();
+        var connectionString = config["ConnectionStrings:TalerinContext"];
+
+        options.UseSqlServer(connectionString);
+    });
 
 var app = builder.Build();
 
@@ -17,7 +29,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 

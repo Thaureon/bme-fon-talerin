@@ -7,9 +7,9 @@ namespace bme_fon_talerin.Data
     public class TalerinContext : BaseContext
     {
         //$env:ASPNETCORE_ENVIRONMENT='Local'
-        //dotnet ef migrations add V9 -c TalerinContext -p src/bme_fon_talerain.Data -s src/bme_fon_talerain --verbose
-        //dotnet ef database update -c TalerinContext -p src/bme_fon_talerain.Data -s src/bme_fon_talerain --verbose
-        //dotnet ef migrations remove -c TalerinContext -p src/bme_fon_talerain.Data -s src/bme_fon_talerain --verbose
+        //dotnet ef migrations add V1 -c TalerinContext -p bme_fon_talerin.Data -s bme_fon_talerin --verbose
+        //dotnet ef database update -c TalerinContext -p bme_fon_talerin.Data -s bme_fon_talerin --verbose
+        //dotnet ef migrations remove -c TalerinContext -p bme_fon_talerin.Data -s bme_fon_talerin --verbose
 
         public DbSet<Sudoku> Sudokus { get; set; }
         public DbSet<SudokuRule> SudokuRules { get; set; }
