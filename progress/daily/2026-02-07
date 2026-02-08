@@ -1,0 +1,23 @@
+# February 07, 2026
+
+## Completions
+- Initial Pages
+    - Created page that displays sudoku grid.
+    - Got initial layout for sudoku grid on page.
+    - Got sudoku data being pulled from database.
+- Sudoku Puzzles
+    - Added first puzzle to database
+
+## Next Focus
+- Initial Pages
+    - Update initial page to allow cells that are not setup initially to be changed
+- Research
+    - Research best practices for blazor contacting a DB
+- CSS
+    - Fix grid to fill the page instead of having a scroll.
+
+## Notes
+- Initial sudoku is pulled from New York Times easy for 2/7.
+- DB is just injected into page.  This is not a good practice, but it was done to get page initially working.
+- Custom grid layout is based on grid format for w3schools
+- Still need to adjust grid to look better.

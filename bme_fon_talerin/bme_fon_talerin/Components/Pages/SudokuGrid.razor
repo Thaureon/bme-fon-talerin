@@ -1,5 +1,62 @@
-﻿<h3>SudokuGrid</h3>
+﻿@page "/sudokuGrid"
+@using System.Text.Json
+@using bme_fon_talerin.Data
+@using bme_fon_talerin.Data.Models
+@using bme_fon_talerin.Models
+@attribute [StreamRendering]
+
+@inject TalerinContext Context
+
+<style>
+    .sudokugrid {
+        aspect-ratio: 1 / 1;
+        width: 75%;
+        display: grid;
+        grid-template-columns: @GridLayout;
+        gap: 5px;
+        background-color: dodgerblue;
+        padding: 5px;
+    }
+
+    .sudokugrid div {
+        background-color: #f1f1f1;
+        text-align: center;
+        padding: 10px;
+        font-size: 30px;
+    }
+
+</style>
+
+<PageTitle>SudokuGrid</PageTitle>
+
+<p>Sudoku Grid</p>
+
+<div class="sudokugrid">
+    @for (var row = 0; row < SudokuData.Size; row++)
+    {
+        @for (var column = 0; column < SudokuData.Size; column++)
+        {
+            <div class='@($"cell{row}{column}")'>@(GivenCells[row][column] == "" ? " " : GivenCells[row][column])</div>
+        }
+    }
+</div>
 
 @code {
+    private Sudoku SudokuData;
 
+    private string[][] GivenCells;
+
+    private string GridLayout = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        SudokuData = Context.Sudokus.First();
+
+        GivenCells = JsonSerializer.Deserialize<SudokuGridCells>(SudokuData.GivenCells).Cells;
+
+        for (var size = 0; size < SudokuData.Size; size++)
+        {
+            GridLayout += " auto";
+        }
+    }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bme_fon_talerin.Data;
 
@@ -11,9 +12,11 @@ using bme_fon_talerin.Data;
 namespace bme_fon_talerin.Data.Migrations
 {
     [DbContext(typeof(TalerinContext))]
-    partial class TalerinContextModelSnapshot : ModelSnapshot
+    [Migration("20260208014159_V2")]
+    partial class V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
