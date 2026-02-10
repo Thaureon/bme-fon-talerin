@@ -1,0 +1,17 @@
+﻿<div class='cell'>@(Value == null ? "" : Value)</div>
+
+@code {
+    [Parameter]
+    public int Row { get; set; }
+    [Parameter]
+    public int Column { get; set; }
+    [Parameter]
+    public int? Value { get; set; }
+
+    private bool Changeable { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Changeable = Value == null;
+    }
+}

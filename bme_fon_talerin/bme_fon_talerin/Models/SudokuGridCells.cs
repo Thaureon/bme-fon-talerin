@@ -2,6 +2,6 @@
 {
     public class SudokuGridCells
     {
-        public string[][] Cells { get; set; }
+        public int?[][] Cells { get; set; }
     }
 }
