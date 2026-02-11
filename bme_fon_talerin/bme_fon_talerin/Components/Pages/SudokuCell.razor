@@ -1,4 +1,6 @@
-﻿<div class='cell'>@(Value == null ? "" : Value)</div>
+﻿<div class='@Classes'>
+    @(Value == null ? "" : Value)
+</div>
 
 @code {
     [Parameter]
@@ -8,10 +10,26 @@
     [Parameter]
     public int? Value { get; set; }
 
+    private string Classes { get; set; } = "";
+
+    private string TempClasses { get; set; } = "";
+
     private bool Changeable { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Changeable = Value == null;
+
+        SetupClasses();
+    }
+
+    private void SetupClasses()
+    {
+        Classes = "cell";
+        Classes += Value == null ? "" : " value";
+        Classes += Row % 3 == 0 ? " bordertop" : "";
+        Classes += Row % 3 == 2 ? " borderbottom" : "";
+        Classes += Column % 3 == 0 ? " borderleft" : "";
+        Classes += Column % 3 == 2 ? " borderright" : "";
     }
 }
