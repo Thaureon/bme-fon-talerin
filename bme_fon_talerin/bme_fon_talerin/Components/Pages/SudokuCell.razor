@@ -1,5 +1,11 @@
-﻿<div class='@Classes'>
-    @(Value == null ? "" : Value)
+﻿<div class="@Classes" id='@($"cell{Row}{Column}")' tabindex='@($"{Row}{Column}")'>
+    <span class="cellvalue" style="background-color: @(Value == null ? "transparent" : "inherit")">
+        @(Value == null ? "" : Value)
+    </span>
+    <span class="cellpencil">
+    </span>
+    <span class="cellhighlight" onfocus="select(this)" onfocusout="deselect(this)">
+    </span>
 </div>
 
 @code {
@@ -9,6 +15,8 @@
     public int Column { get; set; }
     [Parameter]
     public int? Value { get; set; }
+    [Parameter]
+    public string GridType { get; set; }
 
     private string Classes { get; set; } = "";
 
@@ -27,9 +35,12 @@
     {
         Classes = "cell";
         Classes += Value == null ? "" : " value";
-        Classes += Row % 3 == 0 ? " bordertop" : "";
-        Classes += Row % 3 == 2 ? " borderbottom" : "";
-        Classes += Column % 3 == 0 ? " borderleft" : "";
-        Classes += Column % 3 == 2 ? " borderright" : "";
+        if (GridType == "Box")
+        {
+            Classes += Row % 3 == 0 ? " bordertop" : "";
+            Classes += Row % 3 == 2 ? " borderbottom" : "";
+            Classes += Column % 3 == 0 ? " borderleft" : "";
+            Classes += Column % 3 == 2 ? " borderright" : "";
+        }
     }
 }
