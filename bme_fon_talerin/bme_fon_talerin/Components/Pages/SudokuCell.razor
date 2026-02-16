@@ -1,10 +1,13 @@
-﻿<div class="@Classes" id='@($"cell{Row}{Column}")' tabindex='@($"{Row}{Column}")'>
+﻿<div class="@Classes" id='@($"cell{Row}{Column}")' tabindex='@($"{Row}{Column}")' onfocus="select('@($"cell{Row}{Column}highlight")')" onfocusout="deselect('@($"cell{Row}{Column}highlight")')">
     <span class="cellvalue" style="background-color: @(Value == null ? "transparent" : "inherit")">
         @(Value == null ? "" : Value)
     </span>
     <span class="cellpencil">
+        <span class="cellpencildata">
+            @PencilMarks
+        </span>
     </span>
-    <span class="cellhighlight" onfocus="select(this)" onfocusout="deselect(this)">
+    <span id=@($"cell{Row}{Column}highlight") class="cellhighlight" hidden>
     </span>
 </div>
 
@@ -17,8 +20,11 @@
     public int? Value { get; set; }
     [Parameter]
     public string GridType { get; set; }
+    [Parameter]
+    public Random Rand { get; set; }
 
     private string Classes { get; set; } = "";
+    private string PencilMarks { get; set; } = "";
 
     private string TempClasses { get; set; } = "";
 
@@ -28,7 +34,18 @@
     {
         Changeable = Value == null;
 
+        SetupRandomPencilMarks();
+
         SetupClasses();
+    }
+
+    private void SetupRandomPencilMarks()
+    {
+        var randomNum = Rand.Next(1, 9);
+        for (var i = 1; i < randomNum; i++)
+        {
+            PencilMarks += i;
+        }
     }
 
     private void SetupClasses()

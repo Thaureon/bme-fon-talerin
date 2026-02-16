@@ -18,6 +18,7 @@
         background-color: black;
         border: solid black 5px;
         cursor: pointer;
+        pointer-events: none;
     }
     .cell {
         aspect-ratio: 1 / 1;
@@ -28,16 +29,10 @@
         border-color: black;
         border-width: 1px;
         border-style: solid;
-        pointer-events: none;
+        pointer-events: auto;
     }
-    .cell.value {
-        font-size: 3rem;
-    }
-    .cell.selected {
-        background-color: lightblue;
-    }
-    .cell.pencilmarks {
-        font-size: 1rem;
+    .cell:focus {
+        outline: none;
     }
     .cell.borderright {
         border-right-width: 3px;
@@ -63,6 +58,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        font-size: 3rem;
     }
     .cellpencil {
         width: inherit;
@@ -85,23 +81,34 @@
         top: -200%;
         background-color: transparent;
         margin: -5px;
-        pointer-events: auto;
-    }
-    .selected {
         border-style: inset;
         border-color: deepskyblue;
         border-width: 10px;
+        opacity: 30%;
+    }
+
+    .cellpencildata {
+        max-width: 5ch;
+        font-size: 1rem;
+        overflow-wrap: break-word;
+        letter-spacing: 0.2rem;
+        line-height: normal;
+        text-align: center;
     }
 </style>
 
 <script>
-    function select(x)
+    function select(highlighter)
     {
-        x.classList.add("selected");
+        var highlight = document.getElementById(highlighter)
+        highlight.hidden = !highlight.hidden;
+        // console.log(highlighter + " - " highlight.hidden);
     }
-    function deselect(x)
+    function deselect(highlighter)
     {
-        x.classList.remove("selected");
+        var highlight = document.getElementById(highlighter)
+        highlight.hidden = true;
+        // console.log(highlighter + " - " highlight.hidden);
     }
 </script>
 
@@ -114,7 +121,7 @@
     {
         @for (var column = 0; column < SudokuData.Size; column++)
         {
-            <SudokuCell Row="row" Column="column" Value="GivenCells[row][column]" GridType="@GridType"></SudokuCell>
+            <SudokuCell Row="row" Column="column" Value="GivenCells[row][column]" GridType="@GridType" Rand="@Rand"></SudokuCell>
         }
     }
 </div>
@@ -128,8 +135,11 @@
 
     private string GridLayout { get; set; } = "";
 
+    private Random Rand { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        Rand = new Random();
         SudokuData = Context.Sudokus.First();
         var rule = Context.SudokuRules.Where(x => x.SudokuId == SudokuData.Id && x.Rule.Name == "Box").Include(x => x.Rule).Single();
         GridType = rule.Rule.Name;
