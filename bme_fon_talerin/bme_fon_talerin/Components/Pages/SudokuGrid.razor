@@ -98,30 +98,89 @@
 </style>
 
 <script>
+    let position = {x: 0, y: 0};
+
     function select(highlighter)
     {
         var highlight = document.getElementById(highlighter)
         highlight.hidden = !highlight.hidden;
-        // console.log(highlighter + " - " highlight.hidden);
+
+        var segment = highlighter.split("-");
+        position.x = segment[1];
+        position.y = segment[2];
     }
     function deselect(highlighter)
     {
         var highlight = document.getElementById(highlighter)
         highlight.hidden = true;
-        // console.log(highlighter + " - " highlight.hidden);
     }
+    function cellFocus(highlighter)
+    {
+        var highlight = document.getElementById(highlighter)
+        highlight.focus();
+    }
+
+    const keys = {
+      left: 37,
+      up: 38,
+      right: 39,
+      down: 40,
+      w: 87,
+      a: 65,
+      s: 83,
+      d: 68
+    };
+
+    function handleKey(e)
+    {
+        let highlight = "";
+        switch (e.keyCode) {
+        case keys.left:
+        case keys.a:
+            position.y = (position.y + @SudokuData.Size - 1) % @SudokuData.Size;
+            highlight = "cell-" + position.x + "-" + position.y + "";
+            cellFocus(highlight);
+            break;
+        case keys.up:
+        case keys.w:
+            position.x = (position.x + @SudokuData.Size - 1) % @SudokuData.Size;
+            highlight = "cell-" + position.x + "-" + position.y + "";
+            cellFocus(highlight);
+            break;
+        case keys.right:
+        case keys.d:
+            position.y = (position.y + @SudokuData.Size + 1) % @SudokuData.Size;
+            highlight = "cell-" + position.x + "-" + position.y + "";
+            cellFocus(highlight);
+            break;
+        case keys.down:
+        case keys.s:
+            position.x = (position.x + @SudokuData.Size + 1) % @SudokuData.Size;
+            highlight = "cell-" + position.x + "-" + position.y + "";
+            cellFocus(highlight);
+            break;
+        }
+        console.log(position);
+    }
+
+    window.addEventListener("keydown", handleKey);
+    console.log("Javascript Ran");
 </script>
 
 <PageTitle>SudokuGrid</PageTitle>
 
 <p>Sudoku Grid</p>
 
-<div class="sudokugrid">
+<div class="sudokugrid" --grid-rows="@SudokuData.Size" --grid-columns="@SudokuData.Size">
     @for (var row = 0; row < SudokuData.Size; row++)
     {
         @for (var column = 0; column < SudokuData.Size; column++)
         {
-            <SudokuCell Row="row" Column="column" Value="GivenCells[row][column]" GridType="@GridType" Rand="@Rand"></SudokuCell>
+            <SudokuCell Row="row"
+                        Column="column"
+                        Value="GivenCells[row][column]"
+                        GridType="@GridType"
+                        Rand="@Rand"></SudokuCell>
         }
     }
 </div>

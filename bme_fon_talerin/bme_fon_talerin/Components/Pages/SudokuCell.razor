@@ -1,4 +1,4 @@
-﻿<div class="@Classes" id='@($"cell{Row}{Column}")' tabindex='@($"{Row}{Column}")' onfocus="select('@($"cell{Row}{Column}highlight")')" onfocusout="deselect('@($"cell{Row}{Column}highlight")')">
+﻿<div class="@Classes" id='@($"cell-{Row}-{Column}")' tabindex='@($"{Row}{Column}")' onfocus="select('@($"cellhighlight-{Row}-{Column}")')" onfocusout="deselect('@($"cellhighlight-{Row}-{Column}")')">
     <span class="cellvalue" style="background-color: @(Value == null ? "transparent" : "inherit")">
         @(Value == null ? "" : Value)
     </span>
@@ -7,7 +7,7 @@
             @PencilMarks
         </span>
     </span>
-    <span id=@($"cell{Row}{Column}highlight") class="cellhighlight" hidden>
+    <span id=@($"cellhighlight-{Row}-{Column}") class="cellhighlight" hidden>
     </span>
 </div>
 
