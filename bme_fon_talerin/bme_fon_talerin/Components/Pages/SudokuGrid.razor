@@ -7,6 +7,9 @@
 @attribute [StreamRendering]
 
 @inject TalerinContext Context
+@inject IJSRuntime JSRuntime
+
+@rendermode InteractiveServer
 
 <style>
     .sudokugrid {
@@ -98,7 +101,7 @@
 </style>
 
 <script>
-    let position = {x: 0, y: 0};
+    let position = {x: -1, y: -1};
 
     function select(highlighter)
     {
@@ -128,11 +131,14 @@
       w: 87,
       a: 65,
       s: 83,
-      d: 68
+      d: 68,
+      digit1: 49,
+      numpad1: 97
     };
 
     function handleKey(e)
     {
+        console.log(e.currentTarget.dotNetRef);
         let highlight = "";
         switch (e.keyCode) {
         case keys.left:
@@ -159,11 +165,22 @@
             highlight = "cell-" + position.x + "-" + position.y + "";
             cellFocus(highlight);
             break;
+        case keys.digit1:
+        case keys.numpad1:
+            UpdateValue(1);
         }
-        console.log(position);
+    }
+    
+    function addKeyboardListenerEvent(dotNetReference) {
+        window.dotNetRef = dotNetReference;
+        window.addEventListener('keydown', handleKey)
     }
 
-    window.addEventListener("keydown", handleKey);
+    function UpdateValue(value)
+    {
+        console.log(window.dotNetRef);
+        window.dotNetRef.invokeMethodAsync('ValueChanged', Number(position.x), Number(position.y), Number(value));
+    }
     console.log("Javascript Ran");
 </script>
 
@@ -176,7 +193,8 @@
     {
         @for (var column = 0; column < SudokuData.Size; column++)
         {
-            <SudokuCell Row="row"
+            <SudokuCell Parent="this"
+                        Row="row"
                         Column="column"
                         Value="GivenCells[row][column]"
                         GridType="@GridType"
@@ -191,10 +209,17 @@
     private string GridType { get; set; }
 
     private int?[][] GivenCells { get; set; }
+    public SudokuCell[][] Cells { get; set; }
 
     private string GridLayout { get; set; } = "";
 
     private Random Rand { get; set; }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        var dotNetReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addKeyboardListenerEvent", dotNetReference);
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -205,9 +230,17 @@
 
         GivenCells = JsonSerializer.Deserialize<SudokuGridCells>(SudokuData.GivenCells).Cells;
 
+        Cells = new SudokuCell[SudokuData.Size][];
         for (var size = 0; size < SudokuData.Size; size++)
         {
             GridLayout += " auto";
+            Cells[size] = new SudokuCell[SudokuData.Size];
         }
+    }
+
+    [JSInvokable]
+    public async void ValueChanged(int x, int y, int value)
+    {
+        Cells[x][y].UpdateValue(value);
     }
 }

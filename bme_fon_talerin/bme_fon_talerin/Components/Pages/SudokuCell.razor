@@ -13,6 +13,8 @@
 
 @code {
     [Parameter]
+    public SudokuGrid Parent { get; set; }
+    [Parameter]
     public int Row { get; set; }
     [Parameter]
     public int Column { get; set; }
@@ -32,6 +34,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Parent.Cells[Row][Column] = this;
         Changeable = Value == null;
 
         SetupRandomPencilMarks();
@@ -60,4 +63,16 @@
             Classes += Column % 3 == 2 ? " borderright" : "";
         }
     }
+
+    public void UpdateValue(int value)
+    {
+        if (!Changeable)
+        {
+            return;
+        }
+        Value = Value == value ? null : value;
+
+        StateHasChanged();
+    }
+
 }
