@@ -1,0 +1,14 @@
+﻿<div>
+
+</div>
+@code {
+    [Parameter]
+    public SudokuGrid Parent { get; set; }
+
+    public string State { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Parent.Controls = this;
+    }
+}

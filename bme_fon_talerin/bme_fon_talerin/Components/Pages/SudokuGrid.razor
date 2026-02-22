@@ -133,7 +133,25 @@
       s: 83,
       d: 68,
       digit1: 49,
-      numpad1: 97
+      numpad1: 97,
+      digit2: 50,
+      numpad2: 98,
+      digit3: 51,
+      numpad3: 99,
+      digit4: 52,
+      numpad4: 100,
+      digit5: 53,
+      numpad5: 101,
+      digit6: 54,
+      numpad6: 102,
+      digit7: 55,
+      numpad7: 103,
+      digit8: 56,
+      numpad8: 104,
+      digit9: 57,
+      numpad9: 105,
+      back: 8,
+      delete: 46
     };
 
     function handleKey(e)
@@ -168,6 +186,43 @@
         case keys.digit1:
         case keys.numpad1:
             UpdateValue(1);
+            break;
+        case keys.digit2:
+        case keys.numpad2:
+            UpdateValue(2);
+            break;
+        case keys.digit3:
+        case keys.numpad3:
+            UpdateValue(3);
+            break;
+        case keys.digit4:
+        case keys.numpad4:
+            UpdateValue(4);
+            break;
+        case keys.digit5:
+        case keys.numpad5:
+            UpdateValue(5);
+            break;
+        case keys.digit6:
+        case keys.numpad6:
+            UpdateValue(6);
+            break;
+        case keys.digit7:
+        case keys.numpad7:
+            UpdateValue(7);
+            break;
+        case keys.digit8:
+        case keys.numpad8:
+            UpdateValue(8);
+            break;
+        case keys.digit9:
+        case keys.numpad9:
+            UpdateValue(9);
+            break;
+        case keys.back:
+        case keys.delete:
+            ClearCell();
+            break;
         }
     }
     
@@ -178,8 +233,12 @@
 
     function UpdateValue(value)
     {
-        console.log(window.dotNetRef);
         window.dotNetRef.invokeMethodAsync('ValueChanged', Number(position.x), Number(position.y), Number(value));
+    }
+
+    function ClearCell()
+    {
+        window.dotNetRef.invokeMethodAsync('ClearCell', Number(position.x), Number(position.y));
     }
     console.log("Javascript Ran");
 </script>
@@ -203,6 +262,10 @@
     }
 </div>
 
+<div>
+    <SudokuControls Parent="this"></SudokuControls>
+</div>
+
 @code {
 
     private Sudoku SudokuData { get; set; }
@@ -210,6 +273,7 @@
 
     private int?[][] GivenCells { get; set; }
     public SudokuCell[][] Cells { get; set; }
+    public SudokuControls Controls { get; set; }
 
     private string GridLayout { get; set; } = "";
 
@@ -241,6 +305,20 @@
     [JSInvokable]
     public async void ValueChanged(int x, int y, int value)
     {
-        Cells[x][y].UpdateValue(value);
+        var state = Controls.State;
+        if (state == "value")
+        {
+            Cells[x][y].UpdateValue(value);
+        }
+        else if (state == "pencilMark")
+        {
+            Cells[x][y].UpdatePencilMarks(value);
+        }
+    }
+
+    [JSInvokable]
+    public async void ClearCell(int x, int y)
+    {
+       Cells[x][y].ClearCell();
     }
 }
