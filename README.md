@@ -53,6 +53,17 @@ The repository represents learning in motion rather than a finalized product.
 
 ---
 
-## Status
+## 🏁 Project Outcome
 
-🟡 Active — February 2026
+This project was concluded on February 28, 2026 as part of the BME-FON series.
+
+Over the course of the month, the repository was used to explore:
+
+- Building an interactive Sudoku grid interface using Blazor
+- Integrating database-backed puzzle data with a dynamic UI grid
+- Implementing keyboard navigation, value input, and pencilmark interactions for Sudoku cells
+
+A detailed reflection on outcomes, challenges, and lessons learned is
+documented in:
+
+👉 `progress/retrospective.md`
